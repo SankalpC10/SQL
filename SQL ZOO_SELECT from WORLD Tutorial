@@ -1,0 +1,361 @@
+SELECT from WORLD Tutorial
+Jump to navigationJump to search
+Language:	English  • 日本語 • 中文
+name	continent	area	population	gdp
+Afghanistan	Asia	652230	25500100	20343000000
+Albania	Europe	28748	2831741	12960000000
+Algeria	Africa	2381741	37100000	188681000000
+Andorra	Europe	468	78115	3712000000
+Angola	Africa	1246700	20609294	100990000000
+...
+
+In this tutorial you will use the SELECT command on the table world:
+
+
+Contents
+1	Introduction
+2	Large Countries
+3	Per capita GDP
+4	South America In millions
+5	France, Germany, Italy
+6	United
+7	Two ways to be big
+8	One or the other (but not both)
+9	Rounding
+10	Trillion dollar economies
+11	Name and capital have the same length
+12	Matching name and capital
+13	All the vowels
+14	What Next
+Introduction
+1.
+Read the notes about this table. Observe the result of running this SQL command to show the name, continent and population of all countries.
+
+SELECT name, continent, population FROM world
+Submit SQLRestore default
+Correct answer
+name	continent	population
+Afghanistan	Asia	32225560
+Albania	Europe	2845955
+Algeria	Africa	43000000
+Andorra	Europe	77543
+Angola	Africa	31127674
+Antigua and Barbuda	Caribbean	96453
+Argentina	South America	44938712
+Armenia	Eurasia	2957500
+Australia	Oceania	25690023
+Austria	Europe	8902600
+Azerbaijan	Asia	10067108
+Bahamas	Caribbean	385340
+Bahrain	Asia	1543300
+Bangladesh	Asia	168506944
+Barbados	Caribbean	287025
+Belarus	Europe	9408400
+Belgium	Europe	11524454
+Belize	North America	408487
+Benin	Africa	11733059
+Bhutan	Asia	741672
+Bolivia	South America	11469896
+Bosnia and Herzegovina	Europe	3301000
+Botswana	Africa	2338851
+Brazil	South America	211442625
+Brunei	Asia	442400
+Bulgaria	Europe	6951482
+Burkina Faso	Africa	20870060
+Burundi	Africa	10953317
+Cabo Verde	Africa	491875
+Cambodia	Asia	15288489
+Cameroon	Africa	26545864
+Canada	North America	38007166
+Central African Republic	Africa	5496011
+Chad	Africa	16244513
+Chile	South America	19107216
+China	Asia	1402378640
+Colombia	South America	49395678
+Comoros	Africa	873724
+Congo, Democratic Republic of	Africa	69360000
+Congo, Republic of	Africa	4559000
+Costa Rica	North America	5058007
+Côte d'Ivoire	Africa	23919000
+Croatia	Europe	4076246
+Cuba	Caribbean	11209628
+Cyprus	Asia	875900
+Czech Republic	Europe	10693939
+Denmark	Europe	5822763
+Djibouti	Africa	1078373
+Dominica	Caribbean	71808
+Dominican Republic	Caribbean	10358320
+Results truncated. Only the first 50 rows have been shown.
+Large Countries
+2.
+How to use WHERE to filter records. Show the name for the countries that have a population of at least 200 million. 200 million is 200000000, there are eight zeros.
+
+SELECT name FROM world
+WHERE population >200000000
+Submit SQLRestore default
+Correct answer
+name
+Brazil
+China
+India
+Indonesia
+Nigeria
+Pakistan
+United States
+Per capita GDP
+3.
+Give the name and the per capita GDP for those countries with a population of at least 200 million.
+
+HELP:How to calculate per capita GDP
+Select name, gdp/population
+From world
+Where population>200000000
+Submit SQLRestore default
+
+Correct answer
+name	gdp/population
+Brazil	9721.37
+China	8724.3064
+India	1891.7811
+Indonesia	3804.7723
+Nigeria	1822.8862
+Pakistan	1377.0363
+United States	59121.1921
+South America In millions
+4.
+Show the name and population in millions for the countries of the continent 'South America'. Divide the population by 1000000 to get population in millions.
+
+Select name, population/1000000
+From world
+Where continent='South America';
+Submit SQLRestore default
+Correct answer
+name	population/10..
+Argentina	44.9387
+Bolivia	11.4699
+Brazil	211.4426
+Chile	19.1072
+Colombia	49.3957
+Ecuador	17.4729
+Guyana	0.7828
+Paraguay	7.2527
+Peru	32.1314
+Saint Vincent and the Grenadines	0.1106
+Suriname	0.5814
+Uruguay	3.5186
+Venezuela	32.2195
+France, Germany, Italy
+5.
+Show the name and population for France, Germany, Italy
+
+Select name,population
+From world
+where name in ('France', 'Germany','Italy');
+Submit SQLRestore default
+Correct answer
+name	population
+France	67076000
+Germany	83149300
+Italy	60238522
+United
+6.
+Show the countries which have a name that includes the word 'United'
+
+Select name
+From world
+where name Like('%United%');
+Submit SQLRestore default
+Correct answer
+name
+United Arab Emirates
+United Kingdom
+United States
+Two ways to be big
+7.
+Two ways to be big: A country is big if it has an area of more than 3 million sq km or it has a population of more than 250 million.
+
+Show the countries that are big by area or big by population. Show name, population and area.
+
+Select name,population,area
+From world
+where area>3000000 OR population>250000000;
+Submit SQLRestore default
+Correct answer
+name	population	area
+Australia	25690023	7692024
+Brazil	211442625	8515767
+Canada	38007166	9984670
+China	1402378640	9596961
+India	1361503224	3166414
+Indonesia	266911900	1904569
+Russia	146745098	17125242
+United States	329583916	9826675
+One or the other (but not both)
+8.
+Exclusive OR (XOR). Show the countries that are big by area (more than 3 million) or big by population (more than 250 million) but not both. Show name, population and area.
+
+Australia has a big area but a small population, it should be included.
+Indonesia has a big population but a small area, it should be included.
+China has a big population and big area, it should be excluded.
+United Kingdom has a small population and a small area, it should be excluded.
+Select name,population,area
+From world
+where area>3000000 XOR population>250000000
+Submit SQLRestore default
+Correct answer
+name	population	area
+Australia	25690023	7692024
+Brazil	211442625	8515767
+Canada	38007166	9984670
+Indonesia	266911900	1904569
+Russia	146745098	17125242
+Rounding
+9.
+Show the name and population in millions and the GDP in billions for the countries of the continent 'South America'. Use the ROUND function to show the values to two decimal places.
+
+For South America show population in millions and GDP in billions both to 2 decimal places.
+Millions and billions
+Select name, Round(population/1000000,2),Round(GDP/1000000000,2)
+From world
+where continent='South America';
+Submit SQLRestore default
+Correct answer
+name	Round(populat..	Round(GDP/100..
+Argentina	44.94	637.49
+Bolivia	11.47	37.51
+Brazil	211.44	2055.51
+Chile	19.11	277.08
+Colombia	49.4	309.19
+Ecuador	17.47	104.3
+Guyana	0.78	3.09
+Paraguay	7.25	29.44
+Peru	32.13	211.4
+Saint Vincent and the Grenadines	0.11	0.73
+Suriname	0.58	5.21
+Uruguay	3.52	59.18
+Venezuela	32.22	255.09
+Click here to play the SELECT card game
+Trillion dollar economies
+10.
+Show the name and per-capita GDP for those countries with a GDP of at least one trillion (1000000000000; that is 12 zeros). Round this value to the nearest 1000.
+
+Show per-capita GDP for the trillion dollar countries to the nearest $1000.
+
+Select name, Round(GDP/population,-3)
+From world
+where GDP>1000000000000;
+Submit SQLRestore default
+Correct answer
+name	Round(GDP/pop..
+Australia	55000
+Brazil	10000
+Canada	43000
+China	9000
+France	39000
+Germany	44000
+India	2000
+Indonesia	4000
+Italy	32000
+Japan	39000
+Mexico	9000
+Russia	10000
+South Korea	22000
+Spain	28000
+United Kingdom	40000
+United States	59000
+Name and capital have the same length
+11.
+Greece has capital Athens.
+
+Each of the strings 'Greece', and 'Athens' has 6 characters.
+
+Show the name and capital where the name and the capital have the same number of characters.
+
+You can use the LENGTH function to find the number of characters in a string
+SELECT name,capital
+  FROM world
+ WHERE LENGTH(name)=LENGTH(capital);
+Submit SQLRestore default
+Correct answer
+name	capital
+Algeria	Algiers
+Angola	Luanda
+Armenia	Yerevan
+Botswana	Gaborone
+Cameroon	Yaoundé
+Canada	Ottowa
+Djibouti	Djibouti
+Egypt	Cairo
+Estonia	Tallinn
+Fiji	Suva
+Gambia	Banjul
+Georgia	Tbilisi
+Ghana	Accra
+Greece	Athens
+Luxembourg	Luxembourg
+Mauritania	Nouakchott
+Peru	Lima
+Poland	Warsaw
+Russia	Moscow
+Rwanda	Kigali
+San Marino	San Marino
+Singapore	Singapore
+Taiwan	Taipei
+Turkey	Ankara
+Zambia	Lusaka
+Matching name and capital
+12.
+The capital of Sweden is Stockholm. Both words start with the letter 'S'.
+
+Show the name and the capital where the first letters of each match. Don't include countries where the name and the capital are the same word.
+You can use the function LEFT to isolate the first character.
+You can use <> as the NOT EQUALS operator.
+SELECT name,capital
+FROM world
+where LEFT(name,1)=LEFT(capital,1) AND name <> capital;
+Submit SQLRestore default
+Correct answer
+name	capital
+Algeria	Algiers
+Andorra	Andorra la Vella
+Barbados	Bridgetown
+Belize	Belmopan
+Brazil	Brasília
+Brunei	Bandar Seri Begawan
+Burundi	Bujumbura
+Guatemala	Guatemala City
+Guyana	Georgetown
+Kuwait	Kuwait City
+Maldives	Malé
+Marshall Islands	Majuro
+Mexico	Mexico City
+Monaco	Monaco-Ville
+Mozambique	Maputo
+Niger	Niamey
+Panama	Panama City
+Papua New Guinea	Port Moresby
+Sao Tomé and Príncipe	São Tomé
+South Korea	Seoul
+Sri Lanka	Sri Jayawardenepura Kotte
+Sweden	Stockholm
+Taiwan	Taipei
+Tunisia	Tunis
+All the vowels
+13.
+Equatorial Guinea and Dominican Republic have all of the vowels (a e i o u) in the name. They don't count because they have more than one word in the name.
+
+Find the country that has all the vowels and no spaces in its name.
+
+You can use the phrase name NOT LIKE '%a%' to exclude characters from your results.
+The query shown misses countries like Bahamas and Belarus because they contain at least one 'a'
+SELECT name
+   FROM world
+WHERE name LIKE '%a%'
+And name LIKE '%e%'
+AND name LIKE'%i%'
+AND name LIKE'%o%'
+AND name LIKE'%u%'
+AND name NOT LIKE '% %';
+Correct answer
+name
+Mozambique
